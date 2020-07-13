@@ -12,7 +12,7 @@ router.get('/', checkForBooks, function (req, res) {
       res.status(200).json(books);
     })
     .catch((err) => {
-      res.status(500).json({ message: 'Unable to retrieve books', error: err });
+      res.status(500).json({ message: 'Unable to retrieve books', err });
     });
 });
 
@@ -22,9 +22,7 @@ router.get('/:bookId', checkForSingleBook, function (req, res) {
       res.status(200).json(book);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({ message: 'Unable to retrieve request book', error: err });
+      res.status(500).json({ message: 'Unable to retrieve request book', err });
     });
 });
 
@@ -34,12 +32,10 @@ router.post('/', authRequired, createBookRequirements, function (req, res) {
     .then((book) => {
       res
         .status(201)
-        .json({ message: 'Book successfully added our database', book: book });
+        .json({ message: 'Book successfully added our database', book });
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({ message: 'Server unable to add book', error: err });
+      res.status(500).json({ message: 'Server unable to add book', err });
     });
 });
 
@@ -50,9 +46,7 @@ router.delete('/:bookId', authRequired, checkForSingleBook, function (
   Books.remove(req.params.bookId)
     .then((book) => res.status(204).json(book))
     .catch((err) => {
-      res
-        .status(500)
-        .json({ message: 'Server failed to delete book', error: err });
+      res.status(500).json({ message: 'Server failed to delete book', err });
     });
 });
 
@@ -63,7 +57,7 @@ router.put('/:bookId', authRequired, checkForSingleBook, function (req, res) {
       res.status(200).json(book);
     })
     .catch((err) => {
-      res.status(500).json({ message: 'Server failed to update book' });
+      res.status(500).json({ message: 'Server failed to update book', err });
     });
 });
 
