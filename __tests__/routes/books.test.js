@@ -2,7 +2,6 @@ const request = require('supertest');
 const express = require('express');
 const Books = require('../../api/models/booksModel');
 const booksRouter = require('../../api/routes/books');
-const { internet } = require('faker');
 const server = express();
 
 jest.mock('../../api/models/booksModel');
