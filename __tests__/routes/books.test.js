@@ -48,17 +48,4 @@ describe('books router endpoints', () => {
       expect(res.body.error).toBe('Requested book does not exist in database');
     });
   });
-
-  describe('POST /api/books', () => {
-    it('should return 201 when book is created', async (done) => {
-      const book = {
-        googleId: 'jsdfdsfsf10039',
-        title: 'Harry Potter Book One',
-      };
-
-      const res = await request(server).post('/api/books').send(book);
-      console.log(res.status);
-      expect(res.status).toBe(201);
-    });
-  });
 });
