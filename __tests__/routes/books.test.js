@@ -44,7 +44,7 @@ describe('books router endpoints', () => {
       const res = await request(server).get('/api/books/1');
 
       expect(res.status).toBe(404);
-      expect(res.body.error).toBe('Requested book does not exist in database');
+      expect(res.body.error).toBe('BookNotFound');
     });
   });
 });
