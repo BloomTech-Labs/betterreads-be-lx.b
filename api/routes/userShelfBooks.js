@@ -1,88 +1,39 @@
 const express = require('express');
-const authRequired = require('../middleware/authRequired');
-const checkForUser = require('../middleware/checkForUser');
 const BookShelf = require("../models/bookshelfModel");
+const UserShelfBook = require("../models/userShelfBookModel");
 const router = express.Router();
 
-const createABookShelf = async (req, res) => {
+const getAllBooksOfAShelf = async (req,res) => {
     try {
-        if(!req.body.name){
-            return res.status(400).json({error: "Name must not be empty"})
-        }
-        const oldBookshelf = await BookShelf.findByName(req.body.name, req.params.userId)
-        if(oldBookshelf){
-            return res.status(400).json({error: "Name must be unique to the user"})
-        }
-        const bookshelf = {
-            name: req.body.name,
-            private: req.body.private || false,
-            profileId: req.user.id
-        }
-        const newBookShelf = await BookShelf.insert(bookshelf)
-        return res.status(201).json(newBookShelf)
+        // CHECK IF BOOKSHELF EXISTS
+        const bookshelfId = req.params.bookshelfId;
+        const books = await UserShelfBook.getAllBooksOfABookShelf(bookshelfId)
+        return res.status(200).json({status: "Successful", books})
     } catch (error) {
         console.log(error)
-        return res.status(500).json({error: "Server Error"})
-    }
-  }
-
-const getAllBookShelfsOfAUser = async (req, res) => {
-    try {
-        const bookshelfsHash = {}
-        const bookshelfs = await BookShelf.findAllBookshelfsByUserId(req.user.id);
-        const bookshelfsPromises = bookshelfs.map(bookshelf => BookShelf.getAllBooksOfABookShelf(bookshelf.id))
-        const booksResponse = await Promise.all(bookshelfsPromises)
-        booksResponse.forEach(x => {
-            if(x.length){
-               bookshelfsHash[x[0].id] = x 
-            }
-        })
-        bookshelfs.forEach(x => x.books = bookshelfsHash[x.id] || [])
-        return res.status(200).json(bookshelfs)
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({error: "Server Error"})
-    }
-  }
-
-const editBookShelf = async (req, res) => {
-    try {
-        const bookshelfId = req.params.bookshelfId
-        const bookshelf = await BookShelf.findById(bookshelfId)
-        if(!bookshelf){
-            return res.status(401).json({error: "No bookshelf found with that ID"})
-        }
-        const {name, private} = req.body
-        if(name){
-            bookshelf.name = name;
-        }
-        if(private != null){
-            bookshelf.private = private;
-        }
-        const edited = await BookShelf.update(bookshelf)
-        return res.status(200).json(edited)
-    } catch (error) {
-        return res.status(500).json({error: "Server Error"})
+        return res.status(500).json({status: "Failure", error: "Server failed." })
     }
 }
 
-const deleteBookFromShelf = async(req, res) => {
+const addABookToABookshelf = async (req,res) => {
     try {
-        const bookshelfId = req.params.bookshelfId
-        const bookshelf = await BookShelf.findById(bookshelfId)
-        if(!bookshelf){
-            return res.status(401).json({error: "No bookshelf found with that ID"})
+        const {bookId,bookshelfId} = req.params
+        // CHECK IF BOOKSHELF EXISTS
+        // CHECK IF USERBOOK EXISTS
+        const book = await UserShelfBook.findBookInBookshelf(bookshelfId,bookId)
+        if(book){
+            return res.status(400).json({status: "Failure", error: "Book already exists in bookshelf"})
         }
-        await BookShelf.remove(bookshelf.id);
-        return res.status(200).json({message: "Deleted"})
+        const userShelfBook = await UserShelfBook.insert(bookshelfId,bookId)
+        return res.status(200).json({status: "Successful", book: userShelfBook})
     } catch (error) {
         console.log(error)
-        return res.status(500).json({error: "Server Error"})
+        return res.status(500).json({status: "Failure", error: "Server failed." })
     }
 }
 
-router.get('/:bookshelfId/books/all', [checkForUser], getAllBooksOfAShelf);
-router.post('/:bookshelfId/books', [checkForUser], createABookShelf);
-router.delete('/:bookshelfId/books/:bookId', deleteBookshelf)
+router.get('/:bookshelfId/books/all', getAllBooksOfAShelf);
+router.post('/:bookshelfId/book/:bookId', createABookShelf);
+router.delete('/:bookshelfId/book/:bookId', deleteBookshelf)
 
 module.exports = router;
