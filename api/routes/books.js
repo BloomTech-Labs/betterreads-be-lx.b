@@ -27,7 +27,7 @@ router.get('/:bookId', checkForSingleBook, (req, res) => {
     });
 });
 
-router.post('/', authRequired, createBookRequirements, (req, res) => {
+router.post('/', createBookRequirements, (req, res) => {
   var book = req.body;
   Books.create(book)
     .then((book) => {
