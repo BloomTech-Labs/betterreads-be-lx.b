@@ -17,7 +17,8 @@ router.get('/', checkForBooks, (req, res) => {
 });
 
 router.get('/:bookId', checkForSingleBook, (req, res) => {
-  Books.findById()
+  const { bookId } = req.params;
+  Books.findById(bookId)
     .then((book) => {
       res.status(200).json(book);
     })
@@ -26,7 +27,7 @@ router.get('/:bookId', checkForSingleBook, (req, res) => {
     });
 });
 
-router.post('/', authRequired, createBookRequirements, (req, res) => {
+router.post('/', createBookRequirements, (req, res) => {
   var book = req.body;
   Books.create(book)
     .then((book) => {
