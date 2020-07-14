@@ -52,12 +52,14 @@ router.post(
 );
 
 router.delete('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
-  UserBooks.remove(req.params.bookId).then((userBook) =>
+  UserBooks.remove(req.params.bookId).then(() =>
     res
       .status(204)
       .json({ message: 'Book was succesffully deleted!' })
       .catch((err) => {
-        res.status(500).json({ error: 'Server failed to delete user book' });
+        res
+          .status(500)
+          .json({ error: 'Server failed to delete user book', err });
       })
   );
 });
@@ -69,7 +71,7 @@ router.put('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
       res.status(200).json(userBook);
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Server failed to update user book' });
+      res.status(500).json({ error: 'Server failed to update user book', err });
     });
 });
 
