@@ -53,4 +53,15 @@ router.delete('/:bookId', checkForSingleUserBook, (req, res) => {
       })
   );
 });
+
+router.put('/:bookId', checkForSingleUserBook, (req, res) => {
+  const body = req.body;
+  UserBooks.update(req.params.bookId, body)
+    .then((userBook) => {
+      res.status(200).json(userBook);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Server failed to update user book' });
+    });
+});
 module.exports = router;
