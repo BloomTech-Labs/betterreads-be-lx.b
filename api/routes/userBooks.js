@@ -39,7 +39,18 @@ router.post('/', createUserBookReq, checkIfBookExists, (req, res) => {
       res.status(201).json(userBook);
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Server failed to create user book' });
+      res.status(500).json({ error: 'Server failed to create user book', err });
     });
+});
+
+router.delete('/:bookId', checkForSingleUserBook, (req, res) => {
+  UserBooks.remove(req.params.bookId).then((userBook) =>
+    res
+      .status(204)
+      .json({ message: 'Book was succesffully deleted!' })
+      .catch((err) => {
+        res.status(500).json({ error: 'Server failed to delete user book' });
+      })
+  );
 });
 module.exports = router;
