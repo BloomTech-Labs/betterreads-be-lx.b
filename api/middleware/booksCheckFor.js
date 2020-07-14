@@ -5,7 +5,7 @@ function checkForBooks(req, res, next) {
     if (books.length != 0) {
       next();
     } else {
-      res.status(404).json({ message: 'No books were found' });
+      res.status(404).json({ erorr: 'No books were found' });
     }
   });
 }

@@ -7,9 +7,7 @@ function checkForSingleBook(req, res, next) {
     if (book) {
       next();
     } else {
-      res
-        .status(404)
-        .json({ message: 'Requested book does not exist in database' });
+      res.status(404).json({ error: 'BookNotFound' });
     }
   });
 }
