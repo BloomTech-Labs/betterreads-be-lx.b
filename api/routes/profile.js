@@ -159,7 +159,7 @@ router.get('/:id', authRequired, function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.post('/', authRequired, (req, res) => {
+router.post('/', (req, res) => {
   const profile = req.body;
   if (profile) {
     const id = profile.id || 0;
