@@ -4,7 +4,7 @@ function createBookRequirements(req, res, next) {
   if (googleId) {
     next();
   } else {
-    res.status(400).json({ message: 'Please enter all required fields' });
+    res.status(400).json({ error: 'MissingGoogleId' });
   }
 }
 
