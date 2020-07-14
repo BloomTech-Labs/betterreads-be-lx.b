@@ -225,7 +225,7 @@ HTTP/1.1 403 Forbidden
 }
 ```
 
-# <a name='BookAPI'></a> ProfileAPI
+# <a name='BookAPI'></a> BookAPI
 
 ## <a name='Request-List-of-Books'></a> Request List of Books
 
@@ -324,4 +324,114 @@ HTTP/1.1 200 OK
     }
 ]
 
+```
+
+## <a name='Request-Book-information'></a> Request Book information
+
+[Back to top](#top)
+
+```
+GET /books/:bookId
+```
+
+### Parameters - `Parameter`
+
+| Name | Type      | Description            |
+| ---- | --------- | ---------------------- |
+| id   | `Integer` | <p>Book unique ID.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -i http://localhost:3000/books/1
+```
+
+### Success response
+
+#### Success response - `Success 200`
+
+| Name           | Type      | Description                                    |
+| -------------- | --------- | ---------------------------------------------- |
+| id             | `Integer` | <p>Unique id of the Book.</p>                  |
+| googleId       | `String`  | <p>GoogleId associated with google book.</p>   |
+| title          | `String`  | <p>Title of the Book.</p>                      |
+| eTag           | `String`  | <p>Etag of the Book.</p>                       |
+| authors        | `String`  | <p>Author(s) of the Book.</p>                  |
+| publisher      | `String`  | <p>Publisher of the Book.</p>                  |
+| publishDate    | `String`  | <p>Publish Date of the Book.</p>               |
+| description    | `String`  | <p>Description of the Book.</p>                |
+| isbn10         | `String`  | <p>The Isbn10 of the Book.</p>                 |
+| isbn13         | `String`  | <p>The Isbn13 of the Book.</p>                 |
+| pageCount      | `Integer` | <p>Number of Pages the Book has.</p>           |
+| categories     | `String`  | <p>The Categories associated with Book.</p>    |
+| maturityRating | `String`  | <p>Maturity Rating of the Book.</p>            |
+| thumbnail      | `String`  | <p>The thumbnail of the Book.</p>              |
+| smallThumbnail | `String`  | <p>The small thumbnail of the Book.</p>        |
+| language       | `String`  | <p>The Language of the Book.</p>               |
+| webReaderLink  | `String`  | <p>The Web Read Link associated with Book.</p> |
+| textSnippet    | `String`  | <p>Text Snippet of the Book.</p>               |
+| bookFormats    | `String`  | <p>The formats of the Book.</p>                |
+| retailPrice    | `Integer` | <p>The price of the Book.</p>                  |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200 OK
+{
+    "id": 1,
+    "googleId": "asdfdfn123yy",
+    "title": "Harry Potter and the whatever...",
+    "eTag": null,
+    "authors": null,
+    "publisher": null,
+    "publishDate": null,
+    "description": null,
+    "isbn10": null,
+    "isbn13": null,
+    "pageCount": null,
+    "categories": null,
+    "maturityRating": null,
+    "thumbnail": null,
+    "smallThumbnail": null,
+    "language": null,
+    "webReaderLink": null,
+    "textSnippet": null,
+    "bookFormats": null,
+    "retailPrice": null
+}
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                  | Type | Description                                  |
+| --------------------- | ---- | -------------------------------------------- |
+| BookNotFound          |      | <p>404 The id of the User was not found.</p> |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p>            |
+
+|
+
+### Error response example
+
+#### Error response example - `BookNotFound:`
+
+```json
+HTTP/1.1 404 Not Found
+{
+  "error": "BookNotFound"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
 ```
