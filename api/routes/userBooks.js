@@ -35,6 +35,7 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
 
 router.post(
   '/',
+  authRequired,
   createUserBookReq,
   checkIfBookExists,
   checkIfProfileExists,
