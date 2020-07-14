@@ -18,6 +18,7 @@ exports.up = function (knex) {
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
       .notNullable();
+    table.integer('ratings').defaultTo(0);
   });
 };
 
