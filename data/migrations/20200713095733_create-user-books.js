@@ -18,6 +18,13 @@ exports.up = function (knex) {
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
       .notNullable();
+    table
+      .string('profileId')
+      .references('id')
+      .inTable('profiles')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE')
+      .notNullable();
   });
 };
 
