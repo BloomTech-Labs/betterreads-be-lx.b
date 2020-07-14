@@ -2,6 +2,7 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const checkForUserBooks = require('../middleware/userBooks/userBooksCheckFor');
 const checkForSingleUserBook = require('../middleware/userBooks/checkForSingleUserBook');
+const createUserBookReq = require('../middleware/userBooks/createUserBookReq');
 const UserBooks = require('../models/userBooksModel');
 const router = express.Router();
 
@@ -27,6 +28,17 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
       res
         .status(500)
         .json({ error: 'Server failed to retrieve user book', err });
+    });
+});
+
+router.post('/', createUserBookReq, (req, res) => {
+  const body = req.body;
+  UserBooks.create(body)
+    .then((userBook) => {
+      res.status(201).json(userBook);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Server failed to create user book' });
     });
 });
 module.exports = router;
