@@ -3,6 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const checkForUserBooks = require('../middleware/userBooks/userBooksCheckFor');
 const checkForSingleUserBook = require('../middleware/userBooks/checkForSingleUserBook');
 const createUserBookReq = require('../middleware/userBooks/createUserBookReq');
+const checkIfBookExists = require('../middleware/userBooks/checkIfBookExists');
 const UserBooks = require('../models/userBooksModel');
 const router = express.Router();
 
@@ -31,7 +32,7 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
     });
 });
 
-router.post('/', createUserBookReq, (req, res) => {
+router.post('/', createUserBookReq, checkIfBookExists, (req, res) => {
   const body = req.body;
   UserBooks.create(body)
     .then((userBook) => {
