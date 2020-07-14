@@ -35,7 +35,7 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
 
 router.post(
   '/',
-  authRequired,
+  // authRequired,
   createUserBookReq,
   checkIfBookExists,
   checkIfProfileExists,
@@ -46,6 +46,7 @@ router.post(
         res.status(201).json(userBook);
       })
       .catch((err) => {
+        console.log(err)
         res
           .status(500)
           .json({ error: 'Server failed to create user book', err });

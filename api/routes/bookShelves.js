@@ -2,6 +2,8 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const checkForUser = require('../middleware/checkForUser');
 const BookShelf = require("../models/bookshelfModel");
+const UserShelfBook = require("../models/userShelfBookModel");
+const { xssFilter } = require('helmet');
 const router = express.Router();
 
 const createABookShelf = async (req, res) => {
@@ -30,11 +32,13 @@ const getAllBookShelfsOfAUser = async (req, res) => {
     try {
         const bookshelfsHash = {}
         const bookshelfs = await BookShelf.findAllBookshelfsByUserId(req.user.id);
-        const bookshelfsPromises = bookshelfs.map(bookshelf => BookShelf.getAllBooksOfABookShelf(bookshelf.id))
+        console.log(bookshelfs)
+        const bookshelfsPromises = bookshelfs.map(bookshelf => UserShelfBook.findBooksByShelfId(bookshelf.id))
         const booksResponse = await Promise.all(bookshelfsPromises)
         booksResponse.forEach(x => {
+            console.log(x)
             if(x.length){
-               bookshelfsHash[x[0].id] = x 
+               bookshelfsHash[x[0].shelfId] = x 
             }
         })
         bookshelfs.forEach(x => x.books = bookshelfsHash[x.id] || [])
