@@ -32,18 +32,26 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
     });
 });
 
-router.post('/', createUserBookReq, checkIfBookExists, (req, res) => {
-  const body = req.body;
-  UserBooks.create(body)
-    .then((userBook) => {
-      res.status(201).json(userBook);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: 'Server failed to create user book', err });
-    });
-});
+router.post(
+  '/',
+  authRequired,
+  createUserBookReq,
+  checkIfBookExists,
+  (req, res) => {
+    const body = req.body;
+    UserBooks.create(body)
+      .then((userBook) => {
+        res.status(201).json(userBook);
+      })
+      .catch((err) => {
+        res
+          .status(500)
+          .json({ error: 'Server failed to create user book', err });
+      });
+  }
+);
 
-router.delete('/:bookId', checkForSingleUserBook, (req, res) => {
+router.delete('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
   UserBooks.remove(req.params.bookId).then((userBook) =>
     res
       .status(204)
@@ -54,7 +62,7 @@ router.delete('/:bookId', checkForSingleUserBook, (req, res) => {
   );
 });
 
-router.put('/:bookId', checkForSingleUserBook, (req, res) => {
+router.put('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
   const body = req.body;
   UserBooks.update(req.params.bookId, body)
     .then((userBook) => {
@@ -64,4 +72,5 @@ router.put('/:bookId', checkForSingleUserBook, (req, res) => {
       res.status(500).json({ error: 'Server failed to update user book' });
     });
 });
+
 module.exports = router;
