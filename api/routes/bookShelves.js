@@ -7,7 +7,7 @@ const BookShelf = require('../models/bookshelfModel');
 const UserShelfBook = require('../models/userShelfBookModel');
 const router = express.Router();
 
-// router.use(authRequired);
+router.use(authRequired);
 
 /**
  * @swagger

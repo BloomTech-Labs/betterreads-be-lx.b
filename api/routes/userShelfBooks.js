@@ -6,7 +6,7 @@ const createUserShelfBookRequirements = require('../middleware/createUserShelfBo
 const authRequired = require('../middleware/authRequired');
 const router = express.Router();
 
-// router.use(authRequired);
+router.use(authRequired);
 
 /**
  * @swagger
