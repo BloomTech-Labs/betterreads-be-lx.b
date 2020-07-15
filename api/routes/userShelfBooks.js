@@ -31,7 +31,7 @@ router.use(authRequired);
 
 /**
  * @swagger
- * /user-shelf-book/{bookshelfId}/books:
+ * /api/user-shelf-book/{bookshelfId}/books:
  *  get:
  *    description: Get all the books of a bookshelf
  *    summary: Get all the books of a bookshelf
@@ -64,7 +64,7 @@ router.get('/:bookshelfId/books', [checkForBookshelf], getAllBooksOfAShelf);
 
 /**
  * @swagger
- * /user-shelf-book/{bookshelfId}/book/{userBookId}:
+ * /api/user-shelf-book/{bookshelfId}/book/{userBookId}:
  *  delete:
  *    description: Delete a book from a shelf
  *    summary: Delete a book from a shelf
@@ -105,7 +105,7 @@ router.delete(
 
 /**
  * @swagger
- * /user-shelf-book/{bookshelfId}/book/{userBookId}:
+ * /api/user-shelf-book/{bookshelfId}/book/{userBookId}:
  *  post:
  *    description: Add a book to a shelf
  *    summary: Add a book to a shelf

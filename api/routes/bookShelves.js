@@ -73,7 +73,7 @@ router.get('/user/:userId', [checkForUser], getAllBookShelfsOfAUser);
 
 /**
  * @swagger
- * /bookshelves:
+ * /api/bookshelves:
  *  post:
  *    description: Creates a bookshelf for a user
  *    summary: Creates a bookshelf
@@ -111,7 +111,7 @@ router.post('/', [createBookshelfRequirements], createABookShelf);
 
 /**
  * @swagger
- * /bookshelves/{bookshelfId}:
+ * /api/bookshelves/{bookshelfId}:
  *  get:
  *    description: Creates a bookshelf for a user
  *    summary: Creates a bookshelf
@@ -149,7 +149,7 @@ router.get('/:bookshelfId', [checkForBookshelf], getABookShelf);
 
 /**
  * @swagger
- * /bookshelves/{bookshelfId}:
+ * /api/bookshelves/{bookshelfId}:
  *  put:
  *    description: Edit a bookshelf
  *    summary: Edit a bookshelf
@@ -197,7 +197,7 @@ router.put(
 
 /**
  * @swagger
- * /bookshelves/{bookshelfId}:
+ * /api/bookshelves/{bookshelfId}:
  *  delete:
  *    description: Delete a bookshelf
  *    summary: Delete a bookshelf
