@@ -1,15 +1,19 @@
 const express = require('express');
 const BookShelf = require("../models/bookshelfModel");
 const UserShelfBook = require("../models/userShelfBookModel");
+const checkForBookshelf = require('../middleware/checkForBookshelf');
+const checkForUserShelfBook = require("../middleware/checkForUserShelfBook")
+const createUserShelfBookRequirements = require('../middleware/createUserShelfBookRequirements')
 const router = express.Router();
 
-const getAllBooksOfAShelf = async (req,res) => {
+
+router.get('/:bookshelfId/books', [checkForBookshelf], getAllBooksOfAShelf);
+router.delete('/:bookshelfId/book/:bookId',[checkForUserShelfBook], deleteBookFromShelf)
+router.post('/',[createUserShelfBookRequirements], addABookToABookshelf);
+
+async function getAllBooksOfAShelf (req,res) {
     try {
-        // CHECK IF BOOKSHELF EXISTS
-        const bookshelfId = req.params.bookshelfId;
-        console.log(bookshelfId)
-        const books = await UserShelfBook.findBooksByShelfId(bookshelfId)
-        console.log(books)
+        const books = await UserShelfBook.findBooksByShelfId(req.bookshelf.id)
         return res.status(200).json({status: "Successful", books})
     } catch (error) {
         console.log(error)
@@ -17,18 +21,9 @@ const getAllBooksOfAShelf = async (req,res) => {
     }
 }
 
-const addABookToABookshelf = async (req,res) => {
+async function addABookToABookshelf (req,res) {
     try {
-        const {bookId,bookshelfId} = req.body;
-        // CHECK IF BOOKSHELF EXISTS
-        // CHECK IF USERBOOK EXISTS
-        console.log(bookshelfId,bookId)
-        const book = await UserShelfBook.findBookInBookshelf(bookshelfId,bookId)
-        console.log(book)
-        if(book){
-            return res.status(400).json({status: "Failure", error: "Book already exists in bookshelf"})
-        }
-        const userShelfBook = await UserShelfBook.insert(bookshelfId,bookId)
+        const userShelfBook = await UserShelfBook.insert(req.body.shelfId,req.body.bookId)
         return res.status(200).json({status: "Successful", book: userShelfBook})
     } catch (error) {
         console.log(error)
@@ -36,18 +31,9 @@ const addABookToABookshelf = async (req,res) => {
     }
 }
 
-const deleteBookFromShelf = async (req,res) => {
+async function deleteBookFromShelf (req,res) {
     try {
-        const {bookId,bookshelfId} = req.params;
-        // CHECK IF BOOKSHELF EXISTS
-        // CHECK IF USERBOOK EXISTS
-        console.log(bookshelfId,bookId)
-        const book = await UserShelfBook.findBookInBookshelf(bookshelfId,bookId)
-        console.log(book)
-        if(!book){
-            return res.status(400).json({status: "Failure", error: "Book is not in bookshelf"})
-        }
-        const userShelfBook = await UserShelfBook.remove(bookshelfId,bookId)
+        const userShelfBook = await UserShelfBook.remove(req.params.bookshelfId,req.params.bookId)
         return res.status(200).json({status: "Successful", book: userShelfBook})
     } catch (error) {
         console.log(error)
@@ -55,8 +41,5 @@ const deleteBookFromShelf = async (req,res) => {
     }
 }
 
-router.get('/:bookshelfId/books/all', getAllBooksOfAShelf);
-router.post('/', addABookToABookshelf);
-router.delete('/:bookshelfId/book/:bookId', deleteBookFromShelf)
 
 module.exports = router;

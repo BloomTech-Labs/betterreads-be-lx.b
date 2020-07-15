@@ -31,8 +31,8 @@ function findById (bookshelfId) {
     return db('bookshelfs').where({id: bookshelfId}).first()
 }
 
-function findByName (name,profileId) {
-    return db('bookshelfs').where({name, profileId}).first()
+function findByName (name) {
+    return db('bookshelfs').where({name}).first()
 }
 
 const remove = (bookshelfId) => {
