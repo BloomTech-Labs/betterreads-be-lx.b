@@ -15,6 +15,12 @@
   - [Create New Book](#Create-New-Book)
   - [Update Book](#Update-Book)
   - [Delete Book](#Delete-Book)
+- [UserBookAPI](#UserBookAPI)
+  - [Request List of User Books](#Request-List-of-User-Books)
+  - [Request User Book Information](#Request-User-Book-Information)
+  - [Create New User Book](#Create-New-User-Book)
+  - [Update User Book](#Update-User-Book)
+  - [Delete User Book](#Delete-User-Book)
 
 ---
 
@@ -240,7 +246,7 @@ GET /api/books
 Example usage:
 
 ```curl
-curl -i http://localhost:8000/books
+curl -i http://localhost:8000/api/books
 ```
 
 ### Success response
@@ -331,7 +337,7 @@ HTTP/1.1 200 OK
 [Back to top](#top)
 
 ```
-GET /books/:bookId
+GET /api/books/:bookId
 ```
 
 ### Parameters - `Parameter`
@@ -345,7 +351,7 @@ GET /books/:bookId
 Example usage:
 
 ```curl
-curl -i http://localhost:3000/books/1
+curl -i http://localhost:3000/api/books/1
 ```
 
 ### Success response
@@ -411,7 +417,7 @@ HTTP/1.1 200 OK
 
 | Name                  | Type | Description                                  |
 | --------------------- | ---- | -------------------------------------------- |
-| BookNotFound          |      | <p>404 The id of the User was not found.</p> |
+| BookNotFound          |      | <p>404 The id of the Book was not found.</p> |
 | InvalidAuthentication |      | <p>403 Authentication failed.</p>            |
 
 |
@@ -455,7 +461,7 @@ Required Body - `Body`
 Example usage:
 
 ```curl
-curl -d "googleId=asdfdfn123yy&title=Harry Potter" -X POST https://localhost:3000/books
+curl -d "googleId=asdfdfn123yy&title=Harry Potter" -X POST https://localhost:3000/api/books
 ```
 
 ### Success response
@@ -533,7 +539,7 @@ HTTP/1.1 200 OK
 ```json
 HTTP/1.1 400 Bad Request
 {
-  "error": "BookNotFound"
+  "error": "MissingGoogleId"
 }
 ```
 
@@ -551,8 +557,14 @@ HTTP/1.1 403 Forbidden
 [Back to top](#top)
 
 ```
-PUT /books/:bookId
+PUT /api/books/:bookId
 ```
+
+Required Params - `Params`
+
+| Name   | Type      | Description               |
+| ------ | --------- | ------------------------- |
+| bookId | `Integer` | <p>The Id of the Book</p> |
 
 Required Body - `Body`
 
@@ -565,7 +577,7 @@ Required Body - `Body`
 Example usage:
 
 ```curl
-curl -d "title=Harry Potter Book One" -X PUT https://localhost:3000/books/1
+curl -d "title=Harry Potter Book One" -X PUT https://localhost:3000/api/books/1
 ```
 
 ### Success response
@@ -629,10 +641,10 @@ HTTP/1.1 200 OK
 
 #### Error response - `Error 4xx`
 
-| Name                  | Type | Description                                 |
-| --------------------- | ---- | ------------------------------------------- |
-| MissingGoogleId       |      | <p>400 missing required googleId field.</p> |
-| InvalidAuthentication |      | <p>403 Authentication failed.</p>           |
+| Name                  | Type | Description                       |
+| --------------------- | ---- | --------------------------------- |
+| BookNotFound          |      | <p>404 Book not found</p>         |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p> |
 
 |
 
@@ -644,6 +656,433 @@ HTTP/1.1 200 OK
 HTTP/1.1 404 Bad Request
 {
   "error": "BookNotFound"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
+```
+
+## <a name='#Delete-Book'></a> Delete Book
+
+[Back to top](#top)
+
+```
+DELETE /books/:bookId
+```
+
+Required Params - `Params`
+
+| Name   | Type      | Description                                    |
+| ------ | --------- | ---------------------------------------------- |
+| bookId | `Integer` | <p>The ID of the userBook you are editing.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -X DELETE https://localhost:3000/books/1
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                  | Type | Description                                  |
+| --------------------- | ---- | -------------------------------------------- |
+| BookNotFound          |      | <p>404 no book was not found by that ID.</p> |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p>            |
+
+|
+
+### Error response example
+
+#### Error response example - `BookNotFound:`
+
+```json
+HTTP/1.1 404 Bad Request
+{
+  "error": "BookNotFound"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
+```
+
+# <a name='UserBookAPI'></a> BookAPI
+
+## <a name='Request-List-of-User-Books'></a> Request List of User Books
+
+[Back to top](#top)
+
+```
+GET /api/user-books
+```
+
+### Examples
+
+Example usage:
+
+```curl
+curl -i http://localhost:8000/api/user-books
+```
+
+### Success response
+
+#### Success response - `Success 200`
+
+| Name            | Type      | Description                                     |
+| --------------- | --------- | ----------------------------------------------- |
+| id              | `Integer` | <p>Unique id of the Book.</p>                   |
+| readingStatusId | `Integer` | <p>The ID of a valid status.</p>                |
+| favourite       | `Boolean` | <p>Book is a user favourite, true or false.</p> |
+| dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
+| DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
+| currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200 OK
+
+
+[
+    {
+        "id": 1,
+        "readingStatusId": null,
+        "favourite": false,
+        "dateStarted": null,
+        "dateFinshed": null,
+        "currentPage": 25,
+        "bookId": 3,
+        "profileId": "jalsxkh0uaw3g9mokyzg"
+    },
+    {
+        "id": 2,
+        "readingStatusId": null,
+        "favourite": false,
+        "dateStarted": null,
+        "dateFinshed": null,
+        "currentPage": 25,
+        "bookId": 2,
+        "profileId": "jalsxkh0uaw3g9mokyzg"
+    }
+]
+
+
+```
+
+## <a name='Request-User-Book-information'></a> Request User Book information
+
+[Back to top](#top)
+
+```
+GET /user-books/:bookId
+```
+
+### Parameters - `Parameter`
+
+| Name | Type      | Description                 |
+| ---- | --------- | --------------------------- |
+| id   | `Integer` | <p>User Book unique ID.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -i http://localhost:3000/api/user-books/1
+```
+
+### Success response
+
+#### Success response - `Success 200`
+
+| Name            | Type      | Description                                     |
+| --------------- | --------- | ----------------------------------------------- |
+| id              | `Integer` | <p>Unique id of the Book.</p>                   |
+| readingStatusId | `Integer` | <p>The ID of a valid status.</p>                |
+| favourite       | `Boolean` | <p>Book is a user favourite, true or false.</p> |
+| dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
+| DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
+| currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200 OK
+{
+    "id": 1,
+    "readingStatusId": null,
+    "favourite": false,
+    "dateStarted": null,
+    "dateFinshed": null,
+    "currentPage": 25,
+    "bookId": 3,
+    "profileId": "jalsxkh0uaw3g9mokyzg"
+}
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                  | Type | Description                                       |
+| --------------------- | ---- | ------------------------------------------------- |
+| UserBookNotFound      |      | <p>404 The id of the User Book was not found.</p> |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p>                 |
+
+|
+
+### Error response example
+
+#### Error response example - `BookNotFound:`
+
+```json
+HTTP/1.1 404 Not Found
+{
+  "error": "UserBookNotFound"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
+```
+
+```
+POST /api/user-books
+```
+
+Required Body - `Body`
+
+| Name      | Type      | Description        |
+| --------- | --------- | ------------------ |
+| bookId    | `Integer` | <p>Book Id.</p>    |
+| profileId | `String`  | <p>Profile Id.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -d "bookId=2&profileId=jalsxkh0uaw3g9mokyzg" -X POST https://localhost:3000/api/user-books
+```
+
+### Success response
+
+#### Success response - `Success 200`
+
+| Name            | Type      | Description                                     |
+| --------------- | --------- | ----------------------------------------------- |
+| id              | `Integer` | <p>Unique id of the Book.</p>                   |
+| readingStatusId | `Integer` | <p>The ID of a valid status.</p>                |
+| favourite       | `Boolean` | <p>Book is a user favourite, true or false.</p> |
+| dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
+| DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
+| currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200 OK
+{
+    "id": 2,
+    "readingStatusId": null,
+    "favourite": false,
+    "dateStarted": null,
+    "dateFinshed": null,
+    "currentPage": 25,
+    "bookId": 2,
+    "profileId": "jalsxkh0uaw3g9mokyzg"
+}
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                    | Type | Description                                              |
+| ----------------------- | ---- | -------------------------------------------------------- |
+| MissingBookAndProfileId |      | <p>400 missing required bookId and ProfileId fields.</p> |
+| InvalidAuthentication   |      | <p>403 Authentication failed.</p>                        |
+
+|
+
+### Error response example
+
+#### Error response example - `BookNotFound:`
+
+```json
+HTTP/1.1 400 Bad Request
+{
+  "error": "Must include a book id!"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
+```
+
+## <a name='#Update-User-Book'></a> Update User Book
+
+[Back to top](#top)
+
+```
+PUT /user-books/:bookId
+```
+
+Required Params - `Params`
+
+| Name   | Type      | Description                                    |
+| ------ | --------- | ---------------------------------------------- |
+| bookId | `Integer` | <p>The ID of the userBook you are editing.</p> |
+
+Required Body - `Body`
+
+| Name | Type   | Description                                 |
+| ---- | ------ | ------------------------------------------- |
+| body | `Body` | <p>Must provide a body with any fields.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -d "currentPage=50&dateStarted=2020/07/14" -X PUT https://localhost:3000/user-books/3
+```
+
+### Success response
+
+#### Success response - `Success 200`
+
+| Name            | Type      | Description                                     |
+| --------------- | --------- | ----------------------------------------------- |
+| id              | `Integer` | <p>Unique id of the Book.</p>                   |
+| readingStatusId | `Integer` | <p>The ID of a valid status.</p>                |
+| favourite       | `Boolean` | <p>Book is a user favourite, true or false.</p> |
+| dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
+| DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
+| currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200 OK
+[
+    {
+        "id": 3,
+        "readingStatusId": null,
+        "favourite": false,
+        "dateStarted": "2020-07-14T07:00:00.000Z",
+        "dateFinshed": null,
+        "currentPage": 50,
+        "bookId": 1
+    }
+]
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                  | Type | Description                                    |
+| --------------------- | ---- | ---------------------------------------------- |
+| UserBookNotFound      |      | <p>404 user book was not found by that ID.</p> |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p>              |
+
+|
+
+### Error response example
+
+#### Error response example - `UserBookNotFound:`
+
+```json
+HTTP/1.1 404 Bad Request
+{
+  "error": "UserBookNotFound"
+}
+```
+
+#### Error response example - `Forbidden:`
+
+```json
+HTTP/1.1 403 Forbidden
+{
+  "error": "Authorization failed"
+}
+```
+
+## <a name='#Delete-User-Book'></a> Delete User Book
+
+[Back to top](#top)
+
+```
+DELETE /user-books/:bookId
+```
+
+Required Params - `Params`
+
+| Name   | Type      | Description                                    |
+| ------ | --------- | ---------------------------------------------- |
+| bookId | `Integer` | <p>The ID of the userBook you are editing.</p> |
+
+### Examples
+
+Example usage:
+
+```curl
+curl -X DELETE https://localhost:3000/user-books/3
+```
+
+### Error response
+
+#### Error response - `Error 4xx`
+
+| Name                  | Type | Description                                    |
+| --------------------- | ---- | ---------------------------------------------- |
+| UserBookNotFound      |      | <p>404 user book was not found by that ID.</p> |
+| InvalidAuthentication |      | <p>403 Authentication failed.</p>              |
+
+|
+
+### Error response example
+
+#### Error response example - `UserBookNotFound:`
+
+```json
+HTTP/1.1 404 Bad Request
+{
+  "error": "UserBookNotFound"
 }
 ```
 
