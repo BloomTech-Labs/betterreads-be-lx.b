@@ -109,7 +109,6 @@ router.get('/user/:userId', [checkForUser], getAllBookShelfsOfAUser);
 // POST A NEW BOOKSHELF
 router.post('/', [createBookshelfRequirements], createABookShelf);
 
-
 /**
  * @swagger
  * /bookshelves/{bookshelfId}:
