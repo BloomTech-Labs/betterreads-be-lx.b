@@ -19,6 +19,13 @@ exports.up = function (knex) {
       .onDelete('CASCADE')
       .notNullable();
     table.integer('ratings').defaultTo(0);
+    table
+      .string('profileId')
+      .references('id')
+      .inTable('profiles')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE')
+      .notNullable();
   });
 };
 
