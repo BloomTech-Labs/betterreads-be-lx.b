@@ -14,5 +14,10 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex('bookshelfs').insert(bookshelves);
+    })
+    .then(function () {
+      return knex.raw(
+        "select setval('bookshelfs_id_seq', max(id)) from bookshelfs"
+      );
     });
 };
