@@ -4,7 +4,6 @@ const Profile = require('../models/profileModel');
 const createBookshelfRequirements = async (req, res, next) => {
   try {
     const { name, userId } = req.body;
-    console.log(req.body.userId);
     if (req.method === 'POST') {
       if (!userId)
         return res.status(400).json({

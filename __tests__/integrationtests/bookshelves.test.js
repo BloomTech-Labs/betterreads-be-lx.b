@@ -13,15 +13,10 @@ jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
 
-describe('books router endpoints', () => {
+module.exports = describe('books router endpoints', () => {
   beforeAll(async () => {
     server.use(express.json());
     server.use('/api/bookshelves', bookshelfRouter);
-    return db.migrate.latest({ directory: './data/migrations' });
-  });
-  afterAll(async () => {
-    await db.migrate.rollback({ directory: './data/migrations' });
-    return db.destroy();
   });
   beforeEach(async () => {
     return db.seed.run({ directory: './data/seeds' });
@@ -101,10 +96,11 @@ describe('books router endpoints', () => {
     });
   });
   describe('PUT /api/bookselves/1', () => {
-    it('should return 200 returning edited bookshelf wit id of 1', async () => {
+    it('should return 200 returning edited bookshelf with id of 1', async () => {
       const res = await request(server)
         .put('/api/bookshelves/1')
         .send(bookshelfBody);
+      console.log(res.text);
       expect(res.status).toBe(200);
       expect(res.body.bookshelf.name).toBe(bookshelfBody.name);
       expect(res.body.bookshelf.private).toBe(bookshelfBody.private);
@@ -131,7 +127,12 @@ describe('books router endpoints', () => {
   });
   describe('DELETE /api/bookselves/1', () => {
     it('should return 200 returning message deleted', async () => {
-      const res = await request(server).delete('/api/bookshelves/1');
+      const created = await request(server)
+        .post('/api/bookshelves/')
+        .send(bookshelfBody);
+      const res = await request(server).delete(
+        `/api/bookshelves/${created.body.bookshelf.id}`
+      );
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('message');
     });

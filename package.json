@@ -18,10 +18,11 @@
       "**/*.js",
       "!**/node_modules/**",
       "!**/vendor/**",
-      "!**/__tests__/**",
+      "!**/__tests__/**.test.js",
       "!**/coverage/**",
       "!**/apidoc/**"
-    ]
+    ],
+    "modulePathIgnorePatterns": ["./__tests__/integrationtests"]
   },
   "apidoc": {
     "title": "Labs API Starter Scaffolding"
