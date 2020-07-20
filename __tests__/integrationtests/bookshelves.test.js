@@ -13,7 +13,7 @@ jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
 
-module.exports = describe('books router endpoints', () => {
+module.exports = describe('bookshelf router endpoints', () => {
   beforeAll(async () => {
     server.use(express.json());
     server.use('/api/bookshelves', bookshelfRouter);

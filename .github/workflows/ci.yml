@@ -28,6 +28,13 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: "12"
+        
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11'  # See https://hub.docker.com/_/postgres for available versions:
+          postgresql user: 'docker'
+          postgresql password: 'docker'
+          postgresql db: 'api-dev'
 
       # Run the NPM install command before proceeding
       - run: npm install
@@ -35,7 +42,10 @@ jobs:
       - run: npm run lint
 
       - run: cp .env.sample .env
-
+      
+      - run: npm run knex -- migrate:latest --env test
+        
+      - run: npm run knex -- seed:run --env test
       # A GitHub action for running tests and publishing coverage
       - uses: paambaati/codeclimate-action@v2.6.0
         env:
