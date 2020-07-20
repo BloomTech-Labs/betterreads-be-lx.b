@@ -4,21 +4,6 @@ const findAllBookshelfsByUserId = async (userId) => {
   return db('bookshelfs').where({ profileId: userId });
 };
 
-const getAllBooksOfABookShelf = async (shelfId) => {
-  return db('userShelfBooks as usb')
-    .where('usb.shelfId', '=', shelfId)
-    .join('userBooks as ub', 'ub.id', '=', 'usb.bookId')
-    .join('books as b', 'b.id', '=', 'ub.id')
-    .join('readingStatuses as rs', 'rs.id', '=', 'ub.readingStatusId')
-    .select([
-      'usb.shelfId',
-      'usb.bookId',
-      'rs.name as readingStatus',
-      'b.title',
-      'b.thumbnail',
-    ]);
-};
-
 const insert = async (bookshelf) => {
   const [id] = await db('bookshelfs').insert(bookshelf).returning('id');
   return findById(id);
@@ -47,7 +32,6 @@ const remove = (bookshelfId) => {
 module.exports = {
   findAllBookshelfsByUserId,
   findByName,
-  getAllBooksOfABookShelf,
   insert,
   findById,
   remove,
