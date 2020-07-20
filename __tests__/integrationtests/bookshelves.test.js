@@ -100,7 +100,6 @@ module.exports = describe('books router endpoints', () => {
       const res = await request(server)
         .put('/api/bookshelves/1')
         .send(bookshelfBody);
-      console.log(res.text);
       expect(res.status).toBe(200);
       expect(res.body.bookshelf.name).toBe(bookshelfBody.name);
       expect(res.body.bookshelf.private).toBe(bookshelfBody.private);

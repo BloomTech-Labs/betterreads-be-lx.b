@@ -29,7 +29,6 @@ module.exports = describe('userShelfBooks router endpoints', () => {
       const res = await request(server).get('/api/user-shelf-books/1/books');
       expect(res.status).toBe(200);
       expect(res.body.books.length).toBeGreaterThan(0);
-      console.log(res.body);
       expect(Object.keys(res.body.books[0]).length).toBeGreaterThan(0);
     });
     it('should return 404 because bookshelf does not exist', async () => {
