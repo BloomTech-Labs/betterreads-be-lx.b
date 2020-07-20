@@ -60,7 +60,7 @@ module.exports = describe('userShelfBooks router endpoints', () => {
       const res = await request(server)
         .post('/api/user-shelf-books/')
         .send({ ...userShelfBook, bookId: 2 });
-      console.log(res.body)
+      console.log(res.body);
       expect(res.status).toBe(201);
       expect(Object.keys(res.body.book).length).toBeGreaterThan(0);
     });

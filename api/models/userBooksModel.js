@@ -35,7 +35,7 @@ const findBy = async (filter) => {
 
 const findById = async (id) => {
   return db('userBooks as ub')
-    .where('ub.id',id)
+    .where('ub.id', id)
     .first()
     .leftJoin('books as b', 'b.id', '=', 'ub.bookId')
     .leftJoin('readingStatuses as rs', 'rs.id', '=', 'ub.readingStatusId')
@@ -58,7 +58,7 @@ const create = async (userBook) => {
 
 const update = async (id, userBook) => {
   return db('userBooks as ub')
-    .where('ub.id',id)
+    .where('ub.id', id)
     .first()
     .update(userBook)
     .leftJoin('books as b', 'b.id', '=', 'ub.bookId')
