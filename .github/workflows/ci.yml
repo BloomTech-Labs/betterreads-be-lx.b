@@ -28,13 +28,18 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: "12"
+        
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11'  # See https://hub.docker.com/_/postgres for available versions:
+          postgresql user: 'docker'
+          postgresql password: 'docker'
+          postgresql db: 'api-dev'
 
       # Run the NPM install command before proceeding
       - run: npm install
 
       - run: npm run lint
-    
-      - run: docker-compose up
 
       - run: cp .env.sample .env
 
