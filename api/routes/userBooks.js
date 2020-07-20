@@ -8,6 +8,8 @@ const checkIfProfileExists = require('../middleware/userBooks/checkIfProfileExis
 const UserBooks = require('../models/userBooksModel');
 const router = express.Router();
 
+router.use(authRequired);
+
 router.get('/', checkForUserBooks, (req, res) => {
   UserBooks.findAll()
     .then((userBooks) => {
@@ -35,7 +37,6 @@ router.get('/:bookId', checkForSingleUserBook, (req, res) => {
 
 router.post(
   '/',
-  authRequired,
   createUserBookReq,
   checkIfBookExists,
   checkIfProfileExists,
@@ -54,7 +55,7 @@ router.post(
   }
 );
 
-router.delete('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
+router.delete('/:bookId', checkForSingleUserBook, (req, res) => {
   UserBooks.remove(req.params.bookId).then(() =>
     res
       .status(204)
@@ -67,7 +68,7 @@ router.delete('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
   );
 });
 
-router.put('/:bookId', authRequired, checkForSingleUserBook, (req, res) => {
+router.put('/:bookId', checkForSingleUserBook, (req, res) => {
   const body = req.body;
   UserBooks.update(req.params.bookId, body)
     .then((userBook) => {
