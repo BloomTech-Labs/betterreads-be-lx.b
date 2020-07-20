@@ -6,6 +6,8 @@ const createBookRequirements = require('../middleware/createBookRequirements');
 const Books = require('../models/booksModel');
 const router = express.Router();
 
+router.use(authRequired);
+
 router.get('/', checkForBooks, (req, res) => {
   Books.findAll()
     .then((books) => {
@@ -27,7 +29,7 @@ router.get('/:bookId', checkForSingleBook, (req, res) => {
     });
 });
 
-router.post('/', authRequired, createBookRequirements, (req, res) => {
+router.post('/', createBookRequirements, (req, res) => {
   var book = req.body;
   Books.create(book)
     .then((book) => {
@@ -40,7 +42,7 @@ router.post('/', authRequired, createBookRequirements, (req, res) => {
     });
 });
 
-router.delete('/:bookId', authRequired, checkForSingleBook, (req, res) => {
+router.delete('/:bookId', checkForSingleBook, (req, res) => {
   Books.remove(req.params.bookId)
     .then((book) => res.status(204).json(book))
     .catch((err) => {
@@ -48,7 +50,7 @@ router.delete('/:bookId', authRequired, checkForSingleBook, (req, res) => {
     });
 });
 
-router.put('/:bookId', authRequired, checkForSingleBook, (req, res) => {
+router.put('/:bookId', checkForSingleBook, (req, res) => {
   const body = req.body;
   Books.update(req.params.bookId, body)
     .then((book) => {
