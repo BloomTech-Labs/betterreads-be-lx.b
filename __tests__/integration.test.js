@@ -1,6 +1,7 @@
 const db = require('../data/db-config');
 const userShelfBooks = require('./integrationtests/userShelfBooks.test');
 const bookshelves = require('./integrationtests/bookshelves.test');
+const books = require('./integrationtests/books.test');
 describe('Integration Tests', () => {
   beforeAll(async () => {
     return db.migrate.latest({ directory: './data/migrations' });
@@ -11,4 +12,5 @@ describe('Integration Tests', () => {
   });
   userShelfBooks;
   bookshelves;
+  books;
 });

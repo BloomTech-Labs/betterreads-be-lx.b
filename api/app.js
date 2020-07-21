@@ -25,6 +25,7 @@ const bookShelvesRouter = require('./routes/bookShelves');
 const userBooksRouter = require('./routes/userBooks');
 const userShelfBookRouter = require('./routes/userShelfBooks');
 const readingStatusRouter = require('./routes/readingStatuses');
+const searchRouter = require('./routes/search');
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.use('/api/bookshelves', bookShelvesRouter);
 app.use('/api/user-shelf-book', userShelfBookRouter);
 app.use('/api/user-books', userBooksRouter);
 app.use('/api/reading-status', readingStatusRouter);
+app.use('/api/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
