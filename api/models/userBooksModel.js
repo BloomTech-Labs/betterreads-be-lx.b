@@ -10,6 +10,7 @@ const findAll = async () => {
       'b.authors',
       'rs.name',
       'ub.favourite',
+      'ub.currentPage',
       'ub.dateStarted',
       'ub.dateFinshed',
       'p.name as username'
@@ -27,6 +28,7 @@ const findBy = async (filter) => {
       'b.authors',
       'rs.name',
       'ub.favourite',
+      'ub.currentPage',
       'ub.dateStarted',
       'ub.dateFinshed',
       'p.name as username'
@@ -45,6 +47,7 @@ const findById = async (id) => {
       'b.authors',
       'rs.name',
       'ub.favourite',
+      'ub.currentPage',
       'ub.dateStarted',
       'ub.dateFinshed',
       'p.name as username'
@@ -69,6 +72,7 @@ const update = async (id, userBook) => {
       'b.authors',
       'rs.name',
       'ub.favourite',
+      'ub.currentPage',
       'ub.dateStarted',
       'ub.dateFinshed',
       'p.name as username'
