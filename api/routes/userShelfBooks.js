@@ -154,7 +154,7 @@ async function addABookToABookshelf(req, res) {
       req.body.shelfId,
       req.body.bookId
     );
-    return res.status(200).json({ status: 'Successful', book: userShelfBook });
+    return res.status(201).json({ status: 'Successful', book: userShelfBook });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 'Failure', error: 'Server failed.' });

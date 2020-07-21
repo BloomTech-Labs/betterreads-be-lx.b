@@ -17,7 +17,7 @@ const findAll = async () => {
 };
 
 const findBy = async (filter) => {
-  return await db('userBooks')
+  return await db('userBooks as ub')
     .where(filter)
     .leftJoin('books as b', 'b.id', '=', 'ub.bookId')
     .leftJoin('readingStatuses as rs', 'rs.id', '=', 'ub.readingStatusId')
@@ -34,8 +34,8 @@ const findBy = async (filter) => {
 };
 
 const findById = async (id) => {
-  return db('userBooks')
-    .where({ id })
+  return db('userBooks as ub')
+    .where('ub.id', id)
     .first()
     .leftJoin('books as b', 'b.id', '=', 'ub.bookId')
     .leftJoin('readingStatuses as rs', 'rs.id', '=', 'ub.readingStatusId')
@@ -57,8 +57,8 @@ const create = async (userBook) => {
 };
 
 const update = async (id, userBook) => {
-  return db('userBooks')
-    .where({ id: id })
+  return db('userBooks as ub')
+    .where('ub.id', id)
     .first()
     .update(userBook)
     .leftJoin('books as b', 'b.id', '=', 'ub.bookId')
