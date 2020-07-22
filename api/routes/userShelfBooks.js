@@ -163,11 +163,8 @@ async function addABookToABookshelf(req, res) {
 
 async function deleteBookFromShelf(req, res) {
   try {
-    await UserShelfBook.remove(
-      req.params.bookshelfId,
-      req.params.bookId
-    );
-    return res.status(200).json({ status: 'Successful', message: "Deleted" });
+    await UserShelfBook.remove(req.params.bookshelfId, req.params.bookId);
+    return res.status(200).json({ status: 'Successful', message: 'Deleted' });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 'Failure', error: 'Server failed.' });
