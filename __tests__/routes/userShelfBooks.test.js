@@ -4,11 +4,25 @@ const userShelfBooksRouter = require('../../api/routes/userShelfBooks');
 const UserShelfBook = require('../../api/models/userShelfBookModel');
 const server = express();
 
+const mockBookshelf = {
+  id: 1,
+  name: 'This is a bookshelf',
+  private: false,
+}
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
 jest.mock('../../api/middleware/checkForUserShelfBook', () =>
   jest.fn((req, res, next) => next())
+);
+jest.mock('../../api/middleware/createUserShelfBookRequirements', () =>
+  jest.fn((req, res, next) => next())
+);
+jest.mock('../../api/middleware/checkForBookshelf', () =>
+  jest.fn((req, res, next) => {
+    req.bookshelf = mockBookshelf,
+    next()
+  })
 );
 jest.mock('../../api/models/userShelfBookModel');
 
