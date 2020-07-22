@@ -751,6 +751,7 @@ curl -i http://localhost:8000/api/user-books
 | dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
 | DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
 | currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+| profileId       | `String`  | <p>Id of associated profile.</p>                |
 
 ### Success response example
 
@@ -763,23 +764,23 @@ HTTP/1.1 200 OK
 [
     {
         "id": 1,
-        "readingStatusId": null,
+        "title": "Harry Potter Book One",
+        "authors": "A Real Author",
         "favourite": false,
         "dateStarted": null,
         "dateFinshed": null,
         "currentPage": 25,
-        "bookId": 3,
-        "profileId": "jalsxkh0uaw3g9mokyzg"
+        "username": "ImARealUser"
     },
     {
         "id": 2,
-        "readingStatusId": null,
+        "title": "Harry Potter Book Two",
+        "authors": "A Real Author",
         "favourite": false,
         "dateStarted": null,
         "dateFinshed": null,
-        "currentPage": 25,
-        "bookId": 2,
-        "profileId": "jalsxkh0uaw3g9mokyzg"
+        "currentPage": null,
+        "username": "ImARealUser"
     }
 ]
 
@@ -820,6 +821,7 @@ curl -i http://localhost:3000/api/user-books/1
 | dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
 | DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
 | currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+| profileId       | `String`  | <p>Id of associated profile.</p>                |
 
 ### Success response example
 
@@ -829,13 +831,13 @@ curl -i http://localhost:3000/api/user-books/1
 HTTP/1.1 200 OK
 {
     "id": 1,
-    "readingStatusId": null,
+    "title": "Harry Potter Book One",
+    "authors": "A Real Author",
     "favourite": false,
     "dateStarted": null,
     "dateFinshed": null,
     "currentPage": 25,
-    "bookId": 3,
-    "profileId": "jalsxkh0uaw3g9mokyzg"
+    "username": "ImARealUser"
 }
 ```
 
@@ -901,6 +903,7 @@ curl -d "bookId=2&profileId=jalsxkh0uaw3g9mokyzg" -X POST https://localhost:3000
 | dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
 | DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
 | currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+| profileId       | `String`  | <p>Id of associated profile.</p>                |
 
 ### Success response example
 
@@ -909,14 +912,14 @@ curl -d "bookId=2&profileId=jalsxkh0uaw3g9mokyzg" -X POST https://localhost:3000
 ```json
 HTTP/1.1 200 OK
 {
-    "id": 2,
-    "readingStatusId": null,
+    "id": 1,
+    "title": "Harry Potter Book One",
+    "authors": "A Real Author",
     "favourite": false,
     "dateStarted": null,
     "dateFinshed": null,
     "currentPage": 25,
-    "bookId": 2,
-    "profileId": "jalsxkh0uaw3g9mokyzg"
+    "username": "ImARealUser"
 }
 ```
 
@@ -976,7 +979,7 @@ Required Body - `Body`
 Example usage:
 
 ```curl
-curl -d "currentPage=50&dateStarted=2020/07/14" -X PUT https://localhost:3000/user-books/3
+curl -d "currentPage=50&dateStarted=2020/07/14" -X PUT https://localhost:3000/user-books/1
 ```
 
 ### Success response
@@ -991,6 +994,7 @@ curl -d "currentPage=50&dateStarted=2020/07/14" -X PUT https://localhost:3000/us
 | dateStarted     | `Date`    | <p>Date user started reading book.</p>          |
 | DateFinished    | `Date`    | <p>Date user finished reading book.</p>         |
 | currentPage     | `Integer` | <p>Current page of book user is on.</p>         |
+| profileId       | `String`  | <p>Id of associated profile.</p>                |
 
 ### Success response example
 
@@ -1000,13 +1004,14 @@ curl -d "currentPage=50&dateStarted=2020/07/14" -X PUT https://localhost:3000/us
 HTTP/1.1 200 OK
 [
     {
-        "id": 3,
-        "readingStatusId": null,
-        "favourite": false,
-        "dateStarted": "2020-07-14T07:00:00.000Z",
-        "dateFinshed": null,
-        "currentPage": 50,
-        "bookId": 1
+      "id": 1,
+      "title": "Harry Potter Book One",
+      "authors": "A Real Author",
+      "favourite": false,
+      "dateStarted": "2020/07/14",
+      "dateFinshed": null,
+      "currentPage": 50,
+      "username": "ImARealUser"
     }
 ]
 ```
