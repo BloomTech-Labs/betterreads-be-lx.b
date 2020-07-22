@@ -8,7 +8,7 @@ const mockBookshelf = {
   id: 1,
   name: 'This is a bookshelf',
   private: false,
-}
+};
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
@@ -20,8 +20,7 @@ jest.mock('../../api/middleware/createUserShelfBookRequirements', () =>
 );
 jest.mock('../../api/middleware/checkForBookshelf', () =>
   jest.fn((req, res, next) => {
-    req.bookshelf = mockBookshelf,
-    next()
+    (req.bookshelf = mockBookshelf), next();
   })
 );
 jest.mock('../../api/models/userShelfBookModel');

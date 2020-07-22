@@ -9,20 +9,20 @@ const mockBookshelf = {
   id: 1,
   name: 'This is a bookshelf',
   private: false,
-}
+};
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
 jest.mock('../../api/middleware/checkForBookshelf', () =>
   jest.fn((req, res, next) => {
     req.bookshelf = mockBookshelf;
-    next()
+    next();
   })
 );
 jest.mock('../../api/middleware/checkForUser', () =>
   jest.fn((req, res, next) => {
-    req.user = {id: '1'};
-    next()
+    req.user = { id: '1' };
+    next();
   })
 );
 jest.mock('../../api/middleware/createBookshelfRequirements', () =>
@@ -38,9 +38,7 @@ module.exports = describe('bookshelf router endpoints', () => {
   });
   describe('GET /api/bookselves/user/{userId}', () => {
     it('should return 200 returning all seeded bookshelfs of the user with ID of 1', async () => {
-      Bookshelf.findAllBookshelfsByUserId.mockResolvedValue([
-        mockBookshelf
-      ]);
+      Bookshelf.findAllBookshelfsByUserId.mockResolvedValue([mockBookshelf]);
       UserShelfBook.findBooksByShelfId.mockResolvedValue([
         {
           shelfId: 1,
